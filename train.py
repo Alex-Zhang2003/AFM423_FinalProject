@@ -16,7 +16,6 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         'train_acc_hist': [],
         'val_acc_hist': []
     }
-    print(training_info)
 
     for epoch in range(epochs):
         model.train()
@@ -62,9 +61,9 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
 
         dt = datetime.now() - t0
         print(f'''
-        Epoch {epoch + 1}/{epochs}, '
-        Train Loss: {train_loss:.4f}, Train Acc: {train_acc: .4f}, '
-        Validation Loss: {val_loss:.4f}, Validation Acc: {val_acc: .4f}, '
+        Epoch {epoch + 1}/{epochs},
+        Train Loss: {train_loss:.4f}, Train Acc: {train_acc: .4f},
+        Validation Loss: {val_loss:.4f}, Validation Acc: {val_acc: .4f},
         Duration: {dt}''')
 
     save_model(model, os.path.join(MODEL_DIR, f'{model_name}.pth'))
