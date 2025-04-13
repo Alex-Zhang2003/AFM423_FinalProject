@@ -3,10 +3,11 @@ import torch.nn as nn
 from torchinfo import summary
 
 
-class LOBLearner(nn.Module):
+class CNN_LSTM(nn.Module):
+
     def __init__(self):
         super().__init__()
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
         self.name = 'deeplob'
 
         # convolution blocks
@@ -101,5 +102,5 @@ class LOBLearner(nn.Module):
 
 
 if __name__ == '__main__':
-    model = LOBLearner()
+    model = CNN_LSTM()
     summary(model, (1, 1, 100, 20 ))

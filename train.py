@@ -1,7 +1,6 @@
 import os
 import numpy as np
 from datetime import datetime
-from tqdm import tqdm
 import torch
 import pickle
 from utils import save_model
@@ -17,15 +16,16 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         'train_acc_hist': [],
         'val_acc_hist': []
     }
+    print(training_info)
 
-    for epoch in tqdm(range(epochs)):
+    for epoch in range(epochs):
         model.train()
         t0 = datetime.now()
         train_loss = []
         train_acc = []
-        for inputs, targets in tqdm(train_loader):
+        for inputs, targets in train_loader:
             # move data to GPU
-            inputs, targets = inputs.to(model.device, dtype=torch.float), targets.to(model.device, dtype=torch.int64)
+            inputs, targets = inputs.to(model.device), targets.to(model.device)
             # zero the parameter gradients
             optimizer.zero_grad()
             # Forward pass
@@ -44,7 +44,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         model.eval()
         val_loss = []
         val_acc = []
-        for inputs, targets in tqdm(val_loader):
+        for inputs, targets in val_loader:
             inputs, targets = inputs.to(model.device, dtype=torch.float), targets.to(model.device, dtype=torch.int64)
             outputs = model(inputs)
             loss = criterion(outputs, targets)
@@ -70,5 +70,5 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
     save_model(model, os.path.join(MODEL_DIR, f'{model_name}.pth'))
     print('model saved')
 
-    with open(os.path.join(MODEL_DIR, 'training_process.pkl'), 'wb') as f:
+    with open(os.path.join(MODEL_DIR, f'{model_name}_training_process.pkl'), 'wb') as f:
         pickle.dump(training_info, f)
