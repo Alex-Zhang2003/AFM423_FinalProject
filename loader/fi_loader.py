@@ -14,7 +14,7 @@ def get_raw_dataset(data_dir, method, cf, train):
 
 
 def split_x_y(data):
-    data_length = 20
+    data_length = 40
     x = data[:, :data_length]
     y = data[:, -5:]
     return x, y

@@ -24,7 +24,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         train_acc = []
         for inputs, targets in train_loader:
             # move data to GPU
-            inputs, targets = inputs.to(model.device), targets.to(model.device)
+            inputs, targets = inputs.to(model.device, dtype=torch.float32), targets.to(model.device, dtype=torch.float32)
             # zero the parameter gradients
             optimizer.zero_grad()
             # Forward pass
