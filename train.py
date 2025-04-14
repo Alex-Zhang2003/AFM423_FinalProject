@@ -7,7 +7,7 @@ import pickle
 from utils import save_model
 
 
-MODEL_DIR = r'./trained_models'
+MODEL_DIR = os.path.join('.', 'trained_models')
 
 
 def batch_train(model_name, model, criterion, optimizer, train_loader, val_loader, epochs):

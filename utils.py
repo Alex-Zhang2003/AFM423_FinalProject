@@ -1,7 +1,7 @@
 import torch
 
 DATA_DIR = r'./BenchmarkDatasets'
-EPOCHS = 30
+EPOCHS = 15
 LR = 0.0001
 BATCH_SIZE = 128
 NUM_WORKER = 4
