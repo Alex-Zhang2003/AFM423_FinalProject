@@ -25,7 +25,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         train_acc = []
         for inputs, targets in train_loader:
             # move data to GPU
-            inputs, targets = inputs.to(model.device, dtype=torch.float32), targets.to(model.device, dtype=torch.float32)
+            inputs, targets = inputs.to(model.device, dtype=torch.float32), targets.to(model.device, dtype=torch.int64)
             # zero the parameter gradients
             optimizer.zero_grad()
             # Forward pass
@@ -45,7 +45,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         val_loss = []
         val_acc = []
         for inputs, targets in val_loader:
-            inputs, targets = inputs.to(model.device, dtype=torch.float), targets.to(model.device, dtype=torch.int64)
+            inputs, targets = inputs.to(model.device, dtype=torch.float32), targets.to(model.device, dtype=torch.int64)
             outputs = model(inputs)
             loss = criterion(outputs, targets)
             val_loss.append(loss.item())
