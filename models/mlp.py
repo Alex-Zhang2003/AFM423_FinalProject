@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchinfo import summary
@@ -7,6 +8,9 @@ class MLP(nn.Module):
 
     def __init__(self, input_dim=(100, 40)):
         super(MLP, self).__init__()
+        # self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.name = 'mlp'
 
         self.input_size = input_dim[0] * input_dim[1]
 

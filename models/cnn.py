@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torchinfo import summary
@@ -7,6 +8,9 @@ class CNN(nn.Module):
 
     def __init__(self):
         super(CNN, self).__init__()
+        # self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.name = 'cnn'
 
         # 2D Convolutional layer
         self.conv2d = nn.Conv2d(in_channels=1, out_channels=16, kernel_size=(4, 40))

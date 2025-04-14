@@ -1,6 +1,7 @@
 import os
 import numpy as np
 from datetime import datetime
+from tqdm import tqdm
 import torch
 import pickle
 from utils import save_model
@@ -30,7 +31,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
             # Forward pass
             outputs = model(inputs)
             loss = criterion(outputs, targets)
-            # Backward and optimize
+            # Backward pass and update weights
             loss.backward()
             optimizer.step()
             train_loss.append(loss.item())

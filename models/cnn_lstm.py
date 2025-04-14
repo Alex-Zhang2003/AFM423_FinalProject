@@ -7,13 +7,16 @@ class CNN_LSTM(nn.Module):
 
     def __init__(self):
         super().__init__()
-        self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
+        # self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.name = 'cnn_lstm'
 
         # convolution blocks
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=32, kernel_size=(1, 2), stride=(1, 2)),
             nn.LeakyReLU(negative_slope=0.01),
             nn.BatchNorm2d(32),
+            nn.Dropout(0.2),
             nn.Conv2d(in_channels=32, out_channels=32, kernel_size=(4, 1)),
             nn.LeakyReLU(negative_slope=0.01),
             nn.BatchNorm2d(32),
@@ -71,6 +74,7 @@ class CNN_LSTM(nn.Module):
 
         # lstm layers
         self.lstm = nn.LSTM(input_size=192, hidden_size=64, num_layers=1, batch_first=True)
+        self.dropout = nn.Dropout(0.3)
         self.fc1 = nn.Linear(64, 3)
 
     def forward(self, x):

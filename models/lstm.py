@@ -8,6 +8,9 @@ class LSTM(nn.Module):
 
     def __init__(self, input_size=40, hidden_size=64, num_layers=2, dropout=0.2):
         super(LSTM, self).__init__()
+        # self.device = torch.device("cuda:0" if torch.cuda.is_available() else 'mps' if torch.mps.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        self.name = 'ltsm'
 
         self.input_size = input_size
         self.hidden_size = hidden_size
