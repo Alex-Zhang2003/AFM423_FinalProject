@@ -12,7 +12,8 @@ def save_model(model, path):
 
 
 def load_model(model_class, path):
+    device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
     model = model_class()
-    model.load_state_dict(torch.load(path))
+    model.load_state_dict(torch.load(path, map_location=torch.device(device)))
     model.eval()
     return model
