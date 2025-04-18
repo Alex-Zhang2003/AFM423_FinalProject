@@ -14,6 +14,7 @@ class MLP(nn.Module):
 
         self.input_size = input_dim[0] * input_dim[1]
 
+        # 5 Fully connected blocks
         self.fc1 = nn.Linear(self.input_size, 512)
         self.bn1 = nn.BatchNorm1d(512)
         self.dropout1 = nn.Dropout(0.3)
@@ -31,14 +32,17 @@ class MLP(nn.Module):
 
         self.fc5 = nn.Linear(64, 32)
 
+        # Output layer: 3 classes
         self.fc_out = nn.Linear(32, 3)
 
 
     def forward(self, x):
         batch_size = x.size(0)
 
+        # Flatten input
         x = x.view(batch_size, -1)
 
+        # Forward through dense layers with activation, batch norm, and dropout
         x = F.leaky_relu(self.bn1(self.fc1(x)), negative_slope=0.01)
         x = self.dropout1(x)
 
@@ -52,6 +56,7 @@ class MLP(nn.Module):
 
         x = F.leaky_relu(self.fc5(x), negative_slope=0.01)
 
+        # Output class probabilities
         x = self.fc_out(x)
 
         return F.softmax(x, dim=1)

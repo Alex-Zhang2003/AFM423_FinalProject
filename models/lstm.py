@@ -16,6 +16,7 @@ class LSTM(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
 
+        # Bidirectional LSTM
         self.lstm = nn.LSTM(
             input_size=input_size,
             hidden_size=hidden_size,
@@ -25,8 +26,10 @@ class LSTM(nn.Module):
             bidirectional=True
         )
 
+        # Attention mechanism to weigh LSTM outputs
         self.attention = nn.Linear(hidden_size * 2, 1)
 
+        # Fully connected layers after attention
         self.fc1 = nn.Linear(hidden_size * 2, 64)
         self.dropout = nn.Dropout(dropout)
         self.fc2 = nn.Linear(64, 32)

@@ -9,7 +9,7 @@ from utils import save_model
 
 MODEL_DIR = os.path.join('.', 'trained_models')
 
-
+# Train the model using batches and save both model and training history
 def batch_train(model_name, model, criterion, optimizer, train_loader, val_loader, epochs):
     training_info = {
         'train_loss_hist': [],
@@ -41,6 +41,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         train_loss = np.mean(train_loss)
         train_acc = np.mean(train_acc)
 
+        # Evaluate on validation set
         model.eval()
         val_loss = []
         val_acc = []
@@ -54,7 +55,7 @@ def batch_train(model_name, model, criterion, optimizer, train_loader, val_loade
         val_loss = np.mean(val_loss)
         val_acc = np.mean(val_acc)
 
-        # Save losses
+        # Save losses and accuracies
         training_info['train_loss_hist'].append(train_loss)
         training_info['val_loss_hist'].append(val_loss)
         training_info['train_acc_hist'].append(train_acc)

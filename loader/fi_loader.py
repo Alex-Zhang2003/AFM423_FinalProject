@@ -3,7 +3,7 @@ import os
 from torch.utils.data import Dataset
 import torch
 
-
+# Load raw LOB dataset file
 def get_raw_dataset(data_dir, method, cf, train):
     if train:
         path = os.path.join(data_dir, method, 'training', f'Train_Dst_NoAuction_{method}_CF_{str(cf)}.txt')
@@ -12,7 +12,9 @@ def get_raw_dataset(data_dir, method, cf, train):
 
     return np.loadtxt(str(path))
 
-
+# Split raw data into features (x) and labels (y)
+# x: order book states
+# y: next price movement labels
 def split_x_y(data):
     data = data.T
     data_length = 40
@@ -20,7 +22,8 @@ def split_x_y(data):
     y = data[:, -5:]
     return x, y
 
-
+# Group consecutive T ticks into one input sample
+# Extract k-th label column (default k=4)
 def group_ticks(x, y, T, k):
     [N, D] = x.shape
 
@@ -32,7 +35,7 @@ def group_ticks(x, y, T, k):
     y_proc = y_proc[:, k] - 1
     return x_proc, y_proc
 
-
+# Extract specific stock slices from multi-stock raw data
 def extract_stock(raw_data, stock_idx):
     n_boundaries = 4
     boundaries = np.sort(
@@ -56,12 +59,14 @@ class FIDataset(Dataset):
 
         x, y = self.init_dataset()
 
+        # Convert to torch tensors
         x = torch.from_numpy(x)
-        self.x = torch.unsqueeze(x, 1)
+        self.x = torch.unsqueeze(x, 1)   # add channel dimension
         self.y = torch.from_numpy(y)
 
         self.length = len(y)
 
+    # Build full x, y dataset by stacking 5 stocks
     def init_dataset(self):
         x_cat = np.array([])
         y_cat = np.array([])
